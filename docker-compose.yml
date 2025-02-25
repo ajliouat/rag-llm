@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  rag-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - OPENAI_API_KEY=your_openai_key

@@ -1,0 +1,64 @@
+# Ignore Python compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore Python virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore logs and output files
+# logs/
+# *.log
+# *.out
+
+# Ignore data and model files (except for sample/example files)
+# data/embeddings/
+# data/processed/
+# data/raw/
+# models/fine_tuned/
+# models/pretrained/
+
+# Ignore compiled CUDA kernels
+# src/utils/*.so
+# src/utils/*.o
+
+# Ignore Docker build artifacts
+build/
+dist/
+*.egg-info/
+
+# Ignore environment-specific files
+.env
+.env.local
+.env.development
+.env.production
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore pytest cache
+.pytest_cache/
+
+# Ignore coverage reports
+.coverage
+htmlcov/
+
+# Ignore local configuration files
+# configs/local/
+
+
+#
+generate_project_structure.sh
+generated_project_structure.txt

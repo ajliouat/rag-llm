@@ -1,0 +1,21 @@
+model:
+  name: "google/flan-t5-large"
+  fine_tune: true
+  lora:
+    enabled: true
+    rank: 8
+    alpha: 16
+
+data:
+  train_path: "data/processed/train.json"
+  val_path: "data/processed/val.json"
+  batch_size: 16
+  num_epochs: 3
+
+optimizer:
+  lr: 1e-4
+  weight_decay: 0.01
+
+output:
+  model_dir: "models/fine_tuned/"
+  log_file: "logs/training.log"

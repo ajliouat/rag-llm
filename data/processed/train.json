@@ -1,0 +1,12 @@
+[
+    {
+      "question": "What is the capital of France?",
+      "context": "France is a country in Europe. Its capital is Paris.",
+      "answer": "Paris"
+    },
+    {
+      "question": "Who wrote 'Pride and Prejudice'?",
+      "context": "Jane Austen is the author of 'Pride and Prejudice'.",
+      "answer": "Jane Austen"
+    }
+  ]

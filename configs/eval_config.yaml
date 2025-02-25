@@ -1,0 +1,14 @@
+datasets:
+  - name: "NaturalQuestions"
+    path: "data/processed/natural_questions.json"
+  - name: "TriviaQA"
+    path: "data/processed/trivia_qa.json"
+
+metrics:
+  - "bleu"
+  - "rouge"
+  - "exact_match"
+
+output:
+  log_file: "logs/evaluation.log"
+  results_file: "results/evaluation_results.json"
