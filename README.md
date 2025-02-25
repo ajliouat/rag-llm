@@ -1,38 +1,88 @@
+
+
 # Retrieval-Augmented Generation (RAG) for Knowledge-Intensive NLP Tasks
 
-This project implements a state-of-the-art RAG pipeline for answering complex, knowledge-intensive questions. It combines dense retrieval with generative language models to retrieve relevant documents and synthesize accurate, context-aware answers.
+A **state-of-the-art Retrieval-Augmented Generation (RAG) pipeline** for answering complex, knowledge-intensive questions. This project combines **dense retrieval** with **generative language models** to retrieve relevant documents and synthesize accurate, context-aware answers. Built with modern MLOps practices and designed for scalability and production use.
+
+---
 
 ## Features
 - **Dense Retrieval with FAISS**: Efficient document retrieval using dense embeddings and FAISS for similarity search.
-- **Generative Model Fine-tuning**: Fine-tuning of generative models (e.g., LLaMA, FLAN-T5) using LoRA and QLoRA for domain-specific tasks.
-- **Hybrid Retrieval**: Combines dense retrieval with BM25 for improved recall and precision.
-- **Evaluation Framework**: Comprehensive evaluation using BLEU, ROUGE, and Exact Match (EM) on benchmark datasets like Natural Questions (NQ) and TriviaQA.
-- **Real-time Deployment**: Scalable deployment using FastAPI and Docker for real-time inference.
+- **Generative Model Fine-tuning**: Fine-tuning of generative models (e.g., FLAN-T5, LLaMA) using **LoRA** and **QLoRA** for domain-specific tasks.
+- **Hybrid Retrieval**: Combines dense retrieval with **BM25** for improved recall and precision.
+- **Evaluation Framework**: Comprehensive evaluation using **BLEU**, **ROUGE**, and **Exact Match (EM)** on benchmark datasets like Natural Questions (NQ) and TriviaQA.
+- **Real-time Deployment**: Scalable deployment using **FastAPI** and **Docker** for real-time inference.
 - **Knowledge Graph Integration**: Optional integration with knowledge graphs for enhanced context understanding.
 - **Custom CUDA Kernels**: Optimized inference with custom CUDA kernels for faster retrieval and generation.
 
+---
+
+## Table of Contents
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Configuration](#configuration)
+4. [Project Structure](#project-structure)
+5. [File Generation](#file-generation)
+6. [Workflows](#workflows)
+7. [Contributing](#contributing)
+8. [License](#license)
+
+---
+
 ## Installation
+
+### Prerequisites
+- Python 3.9+
+- CUDA-enabled GPU (for custom CUDA kernels)
+- Docker (for deployment)
+- FAISS (for dense retrieval)
+
+### Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
+### Build Custom CUDA Kernels
+```bash
+cd src/utils
+nvcc -O3 -Xcompiler -fPIC -shared -o cuda_kernels.so cuda_kernels.cu
+```
+
+---
+
 ## Usage
+
 ### Training
+To fine-tune the generative model:
 ```bash
 ./scripts/train.sh
 ```
 
 ### Evaluation
+To evaluate the model on benchmark datasets:
 ```bash
 ./scripts/evaluate.sh
 ```
 
 ### Deployment
+To deploy the RAG pipeline as a FastAPI service:
 ```bash
 ./scripts/deploy.sh
 ```
 
+---
+
+## Configuration
+
+The project is configured using YAML files in the `configs/` directory:
+- **`train_config.yaml`**: Configuration for model training (e.g., learning rate, batch size, LoRA settings).
+- **`eval_config.yaml`**: Configuration for evaluation (e.g., datasets, metrics).
+- **`deploy_config.yaml`**: Configuration for deployment (e.g., API host, port, FAISS index path).
+
+---
+
 ## Project Structure
+
 ```
 rag-llm/
 ├── README.md
@@ -45,22 +95,22 @@ rag-llm/
 │   ├── evaluate.sh
 │   ├── deploy.sh
 ├── src/
-│   ├── data/
-│   │   ├── dataloader.py
-│   │   ├── preprocess.py
-│   ├── models/
-│   │   ├── retrieval.py
-│   │   ├── generation.py
-│   │   ├── hybrid_retrieval.py
-│   ├── evaluation/
-│   │   ├── metrics.py
-│   │   ├── benchmark.py
 │   ├── api/
 │   │   ├── app.py
 │   │   ├── schemas.py
+│   ├── data/
+│   │   ├── dataloader.py
+│   │   ├── preprocess.py
+│   ├── evaluation/
+│   │   ├── benchmark.py
+│   │   ├── metrics.py
+│   ├── models/
+│   │   ├── generation.py
+│   │   ├── hybrid_retrieval.py
+│   │   ├── retrieval.py
 │   ├── utils/
-│   │   ├── faiss_utils.py
 │   │   ├── cuda_kernels.cu
+│   │   ├── faiss_utils.py
 │   │   ├── logger.py
 ├── notebooks/
 │   ├── retrieval_benchmark.ipynb
@@ -71,9 +121,9 @@ rag-llm/
 │   ├── test_generation.py
 │   ├── test_hybrid_retrieval.py
 ├── configs/
-│   ├── train_config.yaml
-│   ├── eval_config.yaml
 │   ├── deploy_config.yaml
+│   ├── eval_config.yaml
+│   ├── train_config.yaml
 ├── models/
 │   ├── fine_tuned/
 │   ├── pretrained/
@@ -82,9 +132,72 @@ rag-llm/
 │   ├── processed/
 │   ├── embeddings/
 ├── logs/
-│   ├── training.log
 │   ├── evaluation.log
+│   ├── training.log
 ```
 
+---
+
+## File Generation
+
+The following files and directories are **generated or populated** during the setup and execution of the RAG pipeline:
+
+### 1. **Data Files**
+- **`data/raw/natural_questions.json`**: Contains raw question-answer pairs from the Natural Questions dataset.
+- **`data/processed/train.json`**: Preprocessed training data generated by `src/data/preprocess.py`.
+- **`data/processed/val.json`**: Preprocessed validation data generated by `src/data/preprocess.py`.
+- **`data/embeddings/faiss_index.bin`**: FAISS index file generated by `src/utils/faiss_utils.py` using dense embeddings.
+
+### 2. **Model Files**
+- **`models/pretrained/`**: Contains pretrained model files (e.g., FLAN-T5) downloaded using the Hugging Face Transformers library.
+- **`models/fine_tuned/`**: Contains fine-tuned model files generated during training.
+
+### 3. **Log Files**
+- **`logs/training.log`**: Logs generated during model training.
+- **`logs/evaluation.log`**: Logs generated during model evaluation.
+
+### 4. **Notebooks**
+- **`notebooks/generation_finetuning.ipynb`**: Demonstrates fine-tuning of the generative model.
+- **`notebooks/hybrid_retrieval_demo.ipynb`**: Demonstrates hybrid retrieval using FAISS and BM25.
+- **`notebooks/retrieval_benchmark.ipynb`**: Benchmarks the retrieval performance of the RAG pipeline.
+
+### 5. **Test Files**
+- **`tests/test_retrieval.py`**: Unit tests for the dense retrieval module.
+- **`tests/test_generation.py`**: Unit tests for the generative model.
+- **`tests/test_hybrid_retrieval.py`**: Unit tests for the hybrid retrieval module.
+
+### 6. **Other Files**
+- **`src/utils/cuda_kernels.so`**: Compiled CUDA kernel file generated from `src/utils/cuda_kernels.cu`.
+- **`logs/evaluation.log` and `logs/training.log`**: Auto-generated log files during evaluation and training.
+
+---
+
+## Workflows
+
+### Training Pipeline
+1. **Data Preprocessing**: Raw data is cleaned and preprocessed into a format suitable for training.
+2. **Model Fine-tuning**: The generative model is fine-tuned using LoRA/QLoRA for domain-specific tasks.
+3. **Evaluation**: The fine-tuned model is evaluated on benchmark datasets.
+
+### Deployment Pipeline
+1. **API Deployment**: The RAG pipeline is deployed as a FastAPI service using Docker.
+2. **Monitoring**: Model performance and API usage are monitored in real-time.
+
+### Retraining Pipeline
+1. **Performance Monitoring**: Model performance is continuously monitored.
+2. **Automated Retraining**: If performance drops below a threshold, the model is automatically retrained.
+
+---
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute, please follow these steps:
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Submit a pull request with a detailed description of your changes.
+
+---
+
 ## License
-This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
+
+This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.
